@@ -5,258 +5,602 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kayden Murdic</title>
 <meta name="description" content="Kayden Murdic: AI agents, oversight and verification. Security research, applied AI engineering, nonprofit CFO.">
+<meta name="theme-color" content="#000000">
 <meta property="og:title" content="Kayden Murdic">
-<meta property="og:description" content="AI agents, oversight and verification.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111'/%3E%3Cpath d='M9 8v16M9 16l9-8M12.5 13.5L21 24' stroke='%23e8b04a' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta property="og:description" content="The agent says it's done. Prove it.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23ff2d6b'/%3E%3Cstop offset='1' stop-color='%23a51de6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Cpath d='M9 7v18M9 16l10-9M13 12.5L23 25' stroke='url(%23g)' stroke-width='3.4' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f6f4ef; --surface: #ffffff; --ink: #14130f; --muted: #5d5a52; --faint: #8f8b80;
-    --line: #e3dfd5; --accent: #a86a0c; --accent-soft: #f3e6cf; --code: #efebe2;
-    --mono: ui-monospace, "Cascadia Code", "JetBrains Mono", Consolas, monospace;
-    --sans: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0f0f0d; --surface: #171714; --ink: #ecebe6; --muted: #a9a69c; --faint: #75726a;
-      --line: #2a2924; --accent: #e8b04a; --accent-soft: #2c2415; --code: #1f1e1a;
-    }
+    --bg: #000; --panel: #0a0a0a; --panel-2: #0f0f10; --line: #1d1d1f; --line-2: #2a2a2d;
+    --ink: #f4f4f5; --body: #b4b4bb; --muted: #7c7c85; --faint: #4d4d54;
+    --pink: #ff2d6b; --violet: #a51de6; --grad: linear-gradient(90deg, var(--pink), var(--violet));
+    --display: "Archivo", "Arial Black", sans-serif;
+    --sans: "Archivo", "Segoe UI", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    --ease: cubic-bezier(.2,.7,.2,1);
+    color-scheme: dark;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
-  a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 3px; }
-  a:hover { color: var(--accent); }
-  /* Side padding only, so section/hero/footer can own their vertical rhythm without a specificity fight. */
-  .wrap { max-width: 880px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--sans); font-stretch: 100%; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  ::selection { background: var(--pink); color: #000; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding-left: 40px; padding-right: 40px; position: relative; }
 
-  nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
-  nav .mark { font-family: var(--mono); font-size: 14px; font-weight: 600; text-decoration: none; }
-  nav .mark span { color: var(--accent); }
-  nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-size: 14px; color: var(--muted); }
-  nav ul a { text-decoration: none; }
+  .mono { font-family: var(--mono); text-transform: uppercase; letter-spacing: .12em; font-size: 12px; }
+  .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .display { font-family: var(--display); font-stretch: 125%; font-weight: 800; text-transform: uppercase; letter-spacing: -.02em; line-height: .95; margin: 0; }
 
-  header.hero { padding-top: 88px; padding-bottom: 56px; }
-  .eyebrow { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: .04em; margin: 0 0 18px; }
-  h1 { font-size: clamp(38px, 6vw, 60px); line-height: 1.04; letter-spacing: -.025em; margin: 0 0 22px; font-weight: 700; }
-  .lede { font-size: clamp(18px, 2.3vw, 21px); color: var(--muted); max-width: 640px; margin: 0 0 30px; }
-  .lede strong { color: var(--ink); font-weight: 600; }
-  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; font-size: 15px; font-weight: 500; }
-  .btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-  .btn.primary:hover { color: var(--bg); opacity: .88; }
-  .btn svg { width: 16px; height: 16px; }
+  /* Top utility bar + nav, as on security-platform sites. */
+  .util { border-bottom: 1px solid var(--line); background: #0b0b0c; }
+  .util .wrap { height: 34px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); }
+  .util .live { display: inline-flex; align-items: center; gap: 8px; }
+  .util .live i { width: 6px; height: 6px; background: var(--pink); display: inline-block; animation: blink 1.6s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .15; } }
+  nav { position: sticky; top: 0; z-index: 30; background: rgba(0,0,0,.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  nav .wrap { height: 72px; display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; letter-spacing: -.01em; }
+  .brand svg { width: 26px; height: 26px; }
+  nav ul { display: flex; gap: 34px; list-style: none; margin: 0; padding: 0; color: var(--body); font-size: 15px; }
+  nav ul a { transition: color .2s; } nav ul a:hover { color: var(--ink); }
+  .nav-cta { display: flex; gap: 10px; }
 
-  section { padding-top: 56px; padding-bottom: 56px; border-top: 1px solid var(--line); }
-  h2 { font-family: var(--mono); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--faint); margin: 0 0 28px; }
-  h3 { font-size: 21px; letter-spacing: -.01em; margin: 0; }
+  .btn { display: inline-flex; align-items: center; gap: 12px; height: 46px; padding: 0 20px; border-radius: 6px; font-weight: 600; font-size: 15px;
+    border: 1px solid var(--line-2); background: #050505; transition: border-color .2s, transform .2s var(--ease), filter .2s; white-space: nowrap; }
+  .btn:hover { border-color: #55555c; transform: translateY(-1px); }
+  .btn.primary { border: 0; background: var(--grad); color: #fff; }
+  .btn.primary:hover { filter: brightness(1.12); }
+  .btn .arr { transition: transform .2s var(--ease); } .btn:hover .arr { transform: translateX(4px); }
+  .btn.sm { height: 40px; padding: 0 16px; font-size: 14px; }
 
-  .thesis { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .thesis p { margin: 0; }
-  .thesis .big { grid-column: 1 / -1; font-size: 22px; line-height: 1.45; letter-spacing: -.01em; }
-  .thesis .big em { font-style: normal; color: var(--accent); }
-  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
-  .card .k { font-family: var(--mono); font-size: 12px; color: var(--faint); margin-bottom: 8px; display: block; }
+  /* Hero: big wide type on the left, a live glyph render on the right. */
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+  #glyphs { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hero::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(90deg, #000 0%, rgba(0,0,0,.9) 30%, rgba(0,0,0,.15) 52%, rgba(0,0,0,0) 100%),
+                repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px); }
+  .hero .wrap { z-index: 2; min-height: 760px; display: flex; flex-direction: column; justify-content: center; padding-top: 80px; padding-bottom: 80px; }
+  .hero h1 { font-size: clamp(40px, 6.4vw, 94px); }
+  .hero p.lede { font-size: clamp(18px, 1.7vw, 22px); color: var(--body); max-width: 640px; margin: 34px 0 40px; line-height: 1.55; }
+  .hero .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .hero .ticker { margin-top: 30px; color: var(--ink); display: flex; align-items: center; gap: 12px; }
+  .hero .ticker b { width: 12px; height: 4px; background: var(--grad); }
+  .hero .ruler { position: absolute; bottom: 0; right: 40px; z-index: 2; height: 14px; width: 120px;
+    background: repeating-linear-gradient(90deg, var(--muted) 0 1px, transparent 1px 10px); opacity: .5; }
 
-  .project { display: grid; grid-template-columns: 180px 1fr; gap: 28px; padding: 28px 0; border-bottom: 1px solid var(--line); }
-  .project:last-child { border-bottom: 0; }
-  .project .meta { font-family: var(--mono); font-size: 13px; color: var(--faint); line-height: 1.7; }
-  .project .meta a { color: var(--accent); }
-  .project .sub { color: var(--muted); margin: 4px 0 14px; }
-  .project ul { margin: 0; padding-left: 18px; }
-  .project li { margin: 6px 0; }
-  .project li::marker { color: var(--accent); }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
-  .tags span { font-family: var(--mono); font-size: 12px; padding: 3px 8px; border-radius: 5px; background: var(--code); color: var(--muted); }
+  /* Tool strip: a slow marquee of what I build with. */
+  .strip { border-bottom: 1px solid var(--line); padding: 46px 0 40px; overflow: hidden; }
+  .strip .mono { text-align: center; color: var(--muted); margin-bottom: 26px; }
+  .marquee { display: flex; width: max-content; animation: marq 46s linear infinite;
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+  .strip:hover .marquee { animation-play-state: paused; }
+  .marquee span { font-family: var(--display); font-stretch: 112%; font-weight: 600; font-size: 26px; color: #d7d7dc; padding: 0 34px; letter-spacing: -.01em; display: inline-flex; align-items: center; gap: 34px; }
+  .marquee span::after { content: "/"; color: var(--faint); font-weight: 400; }
+  @keyframes marq { to { transform: translateX(-50%); } }
 
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
-  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
-  .stat b { display: block; font-size: 24px; letter-spacing: -.02em; }
-  .stat span { font-size: 13px; color: var(--muted); }
+  section { padding-top: 120px; padding-bottom: 120px; border-bottom: 1px solid var(--line); }
+  .sec-head { margin-bottom: 56px; }
+  .sec-head h2 { font-size: clamp(32px, 4.4vw, 56px); max-width: 860px; }
+  .sec-head p { color: var(--body); max-width: 640px; margin: 22px 0 0; font-size: 17px; }
+  .kicker { display: flex; gap: 14px; margin-bottom: 18px; }
+  .kicker .n { color: var(--pink); }
+  .pill { display: inline-block; border: 1px solid var(--line-2); border-radius: 999px; padding: 6px 14px; color: #cfcfd6; margin-bottom: 18px; font-size: 11px; }
 
-  .research { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 12px; padding: 26px 28px; }
-  .research h3 { margin-bottom: 12px; }
-  .research p { margin: 0 0 12px; color: var(--muted); }
-  .research p:last-child { margin: 0; }
-  .measures { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; margin: 16px 0; padding: 0; list-style: none; }
-  .measures li { font-size: 15px; padding-left: 18px; position: relative; }
-  .measures li::before { content: "→"; position: absolute; left: 0; color: var(--accent); }
+  /* Stats: one bordered panel, cells split by hairlines. */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .stat { padding: 30px 30px 32px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stat:nth-child(3n) { border-right: 0; } .stat:nth-last-child(-n+3) { border-bottom: 0; }
+  .stat b { display: block; font-family: var(--display); font-stretch: 125%; font-weight: 800; font-size: clamp(30px, 3.2vw, 42px); letter-spacing: -.02em; line-height: 1.05; }
+  .stat > span { display: block; color: var(--body); font-size: 15px; margin-top: 8px; max-width: 300px; }
 
-  .lead-row { display: grid; grid-template-columns: 180px 1fr; gap: 28px; padding: 18px 0; }
-  .lead-row .meta { font-family: var(--mono); font-size: 13px; color: var(--faint); }
-  .lead-row p { margin: 4px 0 0; color: var(--muted); }
+  /* Method: numbered steps beside a sticky HUD panel. */
+  .method { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .steps { display: flex; flex-direction: column; gap: 90px; padding: 40px 0; }
+  .step h3 { font-family: var(--display); font-stretch: 125%; font-weight: 800; text-transform: uppercase; font-size: clamp(24px, 2.4vw, 32px); margin: 0 0 16px; letter-spacing: -.01em; }
+  .step p { color: var(--body); margin: 0; font-size: 17px; }
+  .bracket { position: relative; padding: 28px 30px; margin-top: 30px; color: var(--body); font-size: 17px; }
+  .bracket::before, .bracket::after { content: ""; position: absolute; width: 16px; height: 16px; border-color: var(--pink); border-style: solid; }
+  .bracket::before { top: 0; left: 0; border-width: 1px 0 0 1px; } .bracket::after { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+  .bracket .c2, .bracket .c3 { position: absolute; width: 16px; height: 16px; border: solid var(--pink); }
+  .bracket .c2 { top: 0; right: 0; border-width: 1px 1px 0 0; } .bracket .c3 { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+  .bracket strong { color: var(--ink); }
 
-  footer { border-top: 1px solid var(--line); padding-top: 40px; padding-bottom: 60px; color: var(--muted); font-size: 15px; }
-  footer .row { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 12px; }
-  footer .small { font-family: var(--mono); font-size: 12px; color: var(--faint); margin-top: 28px; }
+  .hud { position: sticky; top: 110px; aspect-ratio: 4 / 5; border: 1px solid var(--line-2); background: #050505; overflow: hidden; }
+  .hud canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hud .bar { position: absolute; left: 0; right: 0; top: 0; height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; border-bottom: 1px solid var(--line-2); background: rgba(0,0,0,.6); z-index: 2; color: #cfcfd6; font-size: 10.5px; }
+  .hud .bar .prog { display: inline-flex; gap: 3px; margin-left: 10px; vertical-align: middle; }
+  .hud .bar .prog i { width: 14px; height: 4px; background: var(--line-2); transition: background .4s; } .hud .bar .prog i.on { background: var(--pink); }
+  .hud .tag { position: absolute; z-index: 2; left: 24px; top: 74px; background: rgba(0,0,0,.72); border: 1px solid var(--line-2); padding: 10px 14px; }
+  .hud .tag small { display: block; color: var(--muted); font-size: 10px; }
+  .hud .tag b { font-family: var(--mono); font-size: 18px; letter-spacing: .06em; transition: opacity .3s; }
+  .hud .frame { position: absolute; inset: 52px 16px 16px; z-index: 2; pointer-events: none; }
+  .hud .frame i { position: absolute; width: 22px; height: 22px; border: solid rgba(255,255,255,.55); }
+  .hud .frame i:nth-child(1) { top: 0; left: 0; border-width: 1px 0 0 1px; } .hud .frame i:nth-child(2) { top: 0; right: 0; border-width: 1px 1px 0 0; }
+  .hud .frame i:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 1px 1px; } .hud .frame i:nth-child(4) { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+  .hud .big-n { position: absolute; z-index: 2; left: 26px; bottom: 22px; font-family: var(--display); font-stretch: 125%; font-weight: 900; font-size: 64px; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.4); }
 
+  /* Work: project rows with spec columns. */
+  .project { display: grid; grid-template-columns: 90px 1fr 300px; gap: 40px; padding: 48px 0; border-top: 1px solid var(--line); }
+  .project:last-child { border-bottom: 1px solid var(--line); }
+  .project .idx { color: var(--pink); padding-top: 8px; }
+  .project h3 { font-family: var(--display); font-stretch: 125%; font-weight: 800; text-transform: uppercase; font-size: clamp(22px, 2.3vw, 30px); margin: 0 0 14px; letter-spacing: -.01em; }
+  .project p { color: var(--body); margin: 0 0 14px; }
+  .project ul { margin: 0; padding: 0; list-style: none; }
+  .project li { color: var(--body); padding-left: 22px; position: relative; margin: 8px 0; }
+  .project li::before { content: "▸"; position: absolute; left: 0; color: var(--pink); }
+  .spec { border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 18px 20px; align-self: start; }
+  .spec div { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-bottom: 1px dashed var(--line-2); font-size: 14px; }
+  .spec div:last-child { border-bottom: 0; }
+  .spec dt, .spec .k { color: var(--muted); font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+  .spec .v { color: var(--ink); text-align: right; }
+  .spec a.v { color: var(--pink); }
+  .spec a.v:hover { text-decoration: underline; }
+
+  /* Research: a single framed brief. */
+  .brief { border: 1px solid var(--line-2); border-radius: 12px; background: var(--panel); padding: 48px; position: relative; overflow: hidden; }
+  .brief::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--grad); }
+  .brief h3 { font-family: var(--display); font-stretch: 118%; font-weight: 800; font-size: clamp(24px, 2.8vw, 36px); line-height: 1.15; margin: 0 0 22px; max-width: 900px; letter-spacing: -.01em; }
+  .brief > p { color: var(--body); max-width: 860px; margin: 0 0 16px; font-size: 17px; }
+  .measures { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin: 34px 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .measures div { padding: 22px; border-right: 1px solid var(--line); background: #070707; }
+  .measures div:last-child { border-right: 0; }
+  .measures .n { color: var(--pink); display: block; margin-bottom: 10px; }
+  .measures p { margin: 0; color: var(--ink); font-size: 15px; line-height: 1.45; }
+
+  /* Leadership: table-like rows. */
+  .rows > div { display: grid; grid-template-columns: 220px 1fr auto; gap: 40px; align-items: baseline; padding: 30px 0; border-top: 1px solid var(--line); }
+  .rows > div:last-child { border-bottom: 1px solid var(--line); }
+  .rows .when { color: var(--muted); }
+  .rows h3 { font-size: 22px; margin: 0 0 6px; font-weight: 700; letter-spacing: -.01em; }
+  .rows p { color: var(--body); margin: 0; }
+  .rows .figs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .rows .figs span { border: 1px solid var(--line-2); border-radius: 999px; padding: 5px 12px; color: #cfcfd6; font-size: 11px; white-space: nowrap; }
+
+  /* Closing CTA band. */
+  .cta-band { padding-top: 140px; padding-bottom: 140px; text-align: center; border-bottom: 0; position: relative; overflow: hidden; }
+  .cta-band::before { content: ""; position: absolute; left: 50%; top: 100%; width: 900px; height: 500px; transform: translate(-50%, -50%);
+    background: radial-gradient(closest-side, rgba(255,45,107,.22), rgba(165,29,230,.12) 50%, transparent); pointer-events: none; }
+  .cta-band h2 { font-size: clamp(40px, 6vw, 84px); }
+  .cta-band p { color: var(--body); margin: 26px auto 40px; max-width: 520px; font-size: 18px; }
+  .cta-band .row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  footer { border-top: 1px solid var(--line); }
+  footer .wrap { height: 72px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); }
+
+  /* Reveal on scroll; hidden only once JS has marked the page. */
+  .js [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--ease), transform .9s var(--ease); transition-delay: var(--d, 0s); }
+  .js [data-reveal].in { opacity: 1; transform: none; }
+  /* Padding keeps the line mask from clipping the bottom of the letters. */
+  .js .hero h1 .ln { display: block; overflow: hidden; padding-bottom: .1em; margin-bottom: -.1em; }
+  .js .hero h1 .ln > span { display: inline-block; transform: translateY(105%); transition: transform 1s var(--ease); transition-delay: var(--d, 0s); }
+  .js .hero.in h1 .ln > span { transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .js [data-reveal], .js .hero h1 .ln > span { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 980px) {
+    .method { grid-template-columns: 1fr; gap: 0; }
+    .hud { position: relative; top: 0; aspect-ratio: 16 / 11; margin-bottom: 40px; order: -1; }
+    .project { grid-template-columns: 1fr; gap: 18px; }
+    .measures { grid-template-columns: 1fr 1fr; }
+    .measures div:nth-child(2) { border-right: 0; }
+    .measures div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .rows > div { grid-template-columns: 1fr; gap: 10px; }
+    .rows .figs { justify-content: flex-start; }
+  }
   @media (max-width: 720px) {
     .wrap { padding-left: 16px; padding-right: 16px; }
-    nav ul { gap: 14px; }
-    nav ul li.hide-sm { display: none; }
-    header.hero { padding-top: 56px; padding-bottom: 40px; }
-    section { padding-top: 40px; padding-bottom: 40px; }
-    .thesis, .measures { grid-template-columns: 1fr; }
-    .project, .lead-row { grid-template-columns: 1fr; gap: 8px; }
+    .util .hide-sm, nav ul, .nav-cta .btn:not(.primary) { display: none; }
+    .hero .wrap { min-height: 620px; }
+    .hero::after { background: linear-gradient(0deg, #000 8%, rgba(0,0,0,.7) 55%, rgba(0,0,0,.45)), repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px); }
+    .hero .ruler { right: 16px; }
+    section { padding-top: 80px; padding-bottom: 80px; }
     .stats { grid-template-columns: 1fr 1fr; }
-    .research { padding: 20px; }
+    .stat { padding: 22px 18px; }
+    .stat:nth-child(3n) { border-right: 1px solid var(--line); } .stat:nth-child(2n) { border-right: 0; }
+    .stat:nth-last-child(-n+3) { border-bottom: 1px solid var(--line); } .stat:nth-last-child(-n+2) { border-bottom: 0; }
+    .brief { padding: 26px 20px; }
+    .measures { grid-template-columns: 1fr; }
+    .measures div { border-right: 0 !important; border-bottom: 1px solid var(--line); }
+    .measures div:last-child { border-bottom: 0; }
+    .steps { gap: 60px; padding: 0; }
+    .marquee span { font-size: 20px; padding: 0 22px; gap: 22px; }
+    .cta-band { padding-top: 96px; padding-bottom: 96px; }
+    footer .wrap { flex-direction: column; justify-content: center; gap: 4px; height: auto; padding-top: 22px; padding-bottom: 22px; }
   }
 </style>
 </head>
 <body>
 
+<div class="util">
+  <div class="wrap mono">
+    <span class="live"><i></i>Open to research roles · Jan 2027</span>
+    <span class="hide-sm">Sacramento area, CA</span>
+  </div>
+</div>
+
 <nav>
   <div class="wrap">
-    <a class="mark" href="#top">kayden<span>.</span>murdic</a>
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#ff2d6b"/><stop offset="1" stop-color="#a51de6"/></linearGradient></defs><path d="M8 6v20M8 16l11-10M12.5 12L24 26" stroke="url(#lg)" stroke-width="3.4" fill="none"/></svg>
+      Kayden Murdic
+    </a>
     <ul>
+      <li><a href="#method">Method</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#research">Research</a></li>
-      <li class="hide-sm"><a href="#leadership">Leadership</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#leadership">Leadership</a></li>
     </ul>
+    <div class="nav-cta">
+      <a class="btn sm" href="https://github.com/PowerK3000">GitHub</a>
+      <a class="btn sm primary" href="#contact">Contact</a>
+    </div>
   </div>
 </nav>
 
 <main id="top">
-  <header class="hero wrap">
-    <p class="eyebrow">AI agents · oversight · verification</p>
-    <h1>Kayden Murdic</h1>
-    <p class="lede">I build AI agent systems and study the part that breaks first: <strong>knowing when to believe them.</strong> Security researcher, applied AI engineer, and co-founder and CFO of a nonprofit.</p>
-    <div class="cta">
-      <a class="btn primary" href="https://github.com/PowerK3000">
-        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-        GitHub
-      </a>
-      <a class="btn" href="https://www.linkedin.com/in/kayden-undefined-033862294/">LinkedIn</a>
-      <a class="btn" href="mailto:Murdic.Kayden.Future@gmail.com">Email</a>
+  <header class="hero" data-reveal>
+    <canvas id="glyphs" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <h1 class="display">
+        <span class="ln"><span>The agent says</span></span>
+        <span class="ln"><span style="--d:.08s">it's done.</span></span>
+        <span class="ln"><span class="grad" style="--d:.16s">Prove it.</span></span>
+      </h1>
+      <p class="lede">I build AI agent systems and study the part that breaks first: knowing when to believe them. Security researcher, applied AI engineer, and co-founder and CFO of a nonprofit.</p>
+      <div class="row">
+        <a class="btn primary" href="#work">See the work <span class="arr">→</span></a>
+        <a class="btn" href="#research">Research direction</a>
+      </div>
+      <div class="ticker mono"><b></b>Every finding gated by a passing exploit test</div>
     </div>
+    <div class="ruler" aria-hidden="true"></div>
   </header>
 
-  <section class="wrap">
-    <h2>What I work on</h2>
-    <div class="thesis">
-      <p class="big">AI agents can now do real work on real systems. The hard problem isn't getting them to act. It's <em>verifying what they claim</em>, when the person checking can't redo the work by hand.</p>
-      <div class="card">
-        <span class="k">Lesson learned the hard way</span>
-        <p>My first bug-bounty report came with a proof of concept whose tests all passed. The triager closed it within an hour: the tests ran against a stub contract I'd written, not the real one. My check was satisfied; the goal wasn't.</p>
+  <div class="strip">
+    <div class="mono">Built with</div>
+    <div class="marquee" aria-label="Tools I build with">
+      <span>Claude</span><span>Foundry</span><span>Slither</span><span>Mythril</span><span>Semgrep</span><span>Echidna</span><span>Docker</span><span>PyTorch</span><span>Whisper</span><span>MediaPipe</span><span>FastAPI</span><span>Postgres</span><span>Rust</span><span>TypeScript</span>
+      <span aria-hidden="true">Claude</span><span aria-hidden="true">Foundry</span><span aria-hidden="true">Slither</span><span aria-hidden="true">Mythril</span><span aria-hidden="true">Semgrep</span><span aria-hidden="true">Echidna</span><span aria-hidden="true">Docker</span><span aria-hidden="true">PyTorch</span><span aria-hidden="true">Whisper</span><span aria-hidden="true">MediaPipe</span><span aria-hidden="true">FastAPI</span><span aria-hidden="true">Postgres</span><span aria-hidden="true">Rust</span><span aria-hidden="true">TypeScript</span>
+    </div>
+  </div>
+
+  <section class="wrap" style="border-bottom:0; padding-bottom:0">
+    <div class="stats" data-reveal>
+      <div class="stat"><b class="grad">$<span data-count="500">500</span>K</b><span>yearly nonprofit budget I manage as CFO</span></div>
+      <div class="stat"><b><span data-count="500">500</span>+</b><span>volunteers across our events</span></div>
+      <div class="stat"><b><span data-count="4">4</span> yrs</b><span>reporting to a board, since 2022</span></div>
+      <div class="stat"><b><span data-count="7">7</span></b><span>layers in my agent auditing pipeline</span></div>
+      <div class="stat"><b><span data-count="45">45</span>→<span data-count="98">98</span>%</b><span>tap separability after hand-model calibration</span></div>
+      <div class="stat"><b><span data-count="52">52</span></b><span>commits in a public research repo, lab notebook included</span></div>
+    </div>
+  </section>
+
+  <section id="method">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <h2 class="display">From claim<br>to <span class="grad">proof</span></h2>
+        <p>An agent's report is a claim, not a finding. Every step below exists because skipping it once cost me.</p>
       </div>
-      <div class="card">
-        <span class="k">What I did about it</span>
-        <p>I rebuilt my pipeline around hard acceptance gates. State the invariants first, and report nothing without a passing exploit test against the live, deployed contract. Measure, then decide, and write up the negative results.</p>
+      <div class="method">
+        <div class="steps">
+          <div class="step" data-step="0" data-reveal>
+            <div class="kicker mono"><span class="n">01</span><span>Invariants</span></div>
+            <span class="pill mono">Before any search</span>
+            <h3>State what must hold</h3>
+            <p>Write down the protocol's economic invariants first, for example that total assets never fall below total shares. The search is for a transaction path that breaks one, not for anything that looks scary.</p>
+          </div>
+          <div class="step" data-step="1" data-reveal>
+            <div class="kicker mono"><span class="n">02</span><span>Search</span></div>
+            <span class="pill mono">Model proposes, tools decide</span>
+            <h3>Let the agent hunt</h3>
+            <p>Static analysis narrows the field, and Claude reasons over what's left. Nothing it says counts yet. A confident report and a correct one look identical from the outside.</p>
+          </div>
+          <div class="step" data-step="2" data-reveal>
+            <div class="kicker mono"><span class="n">03</span><span>Proof gate</span></div>
+            <span class="pill mono">Against live state</span>
+            <h3>Fork test or it didn't happen</h3>
+            <p>A finding exists only when a Foundry test on a mainnet fork, against the real deployed contract, actually executes the exploit.</p>
+            <div class="bracket"><i class="c2"></i><i class="c3"></i>My first bug report came with a proof of concept whose tests all passed. The triager closed it within an hour: the tests ran against <strong>a stub contract I'd written, not the real one.</strong> My check was satisfied; the goal wasn't.</div>
+          </div>
+          <div class="step" data-step="3" data-reveal>
+            <div class="kicker mono"><span class="n">04</span><span>Write-up</span></div>
+            <span class="pill mono">Negative results included</span>
+            <h3>Measure, then decide</h3>
+            <p>Every decision gets a number, and the numbers that say no get written down too. That's how hand-sonar's lab notebook reads, and how VDS's gates got built.</p>
+          </div>
+        </div>
+        <div class="hud" aria-hidden="true">
+          <div class="bar mono"><span>◂ Method</span><span><span id="hud-n">01</span> / 04<span class="prog"><i class="on"></i><i></i><i></i><i></i></span></span></div>
+          <canvas id="hud-canvas"></canvas>
+          <div class="frame"><i></i><i></i><i></i><i></i></div>
+          <div class="tag mono"><small>Stage</small><b id="hud-label">Invariants</b></div>
+          <div class="big-n" id="hud-big">01</div>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="wrap" id="work">
-    <h2>Selected work</h2>
+    <div class="sec-head" data-reveal>
+      <div class="kicker mono"><span class="n">//</span><span>Selected work</span></div>
+      <h2 class="display">Built, measured,<br><span class="grad">shipped or not</span></h2>
+    </div>
 
-    <article class="project">
-      <div class="meta">2025 – present<br>Python · Docker<br>private</div>
+    <article class="project" data-reveal>
+      <div class="idx mono">01</div>
       <div>
         <h3>VDS: Vulnerability Discovery System</h3>
-        <p class="sub">An agent pipeline for smart-contract auditing in which the model proposes and tools decide.</p>
+        <p>An agent pipeline for smart-contract auditing in which the model proposes and tools decide.</p>
         <ul>
           <li>Seven layers: program ingestion, static analysis, LLM-driven discovery and validation, deduplication, Foundry proof-of-concept generation, and learning metrics.</li>
           <li>Claude runs the reasoning layers through a file-backed job queue; static tools and fork tests gate what counts as a finding.</li>
           <li>Six Docker Compose services with a React frontend and an Electron desktop app.</li>
         </ul>
-        <div class="tags"><span>FastAPI</span><span>Celery</span><span>Postgres</span><span>Redis</span><span>Slither</span><span>Mythril</span><span>Semgrep</span><span>Echidna</span><span>Foundry</span></div>
       </div>
+      <dl class="spec">
+        <div><span class="k">Status</span><span class="v">Private</span></div>
+        <div><span class="k">Since</span><span class="v">2025</span></div>
+        <div><span class="k">Stack</span><span class="v">Python · FastAPI · Celery</span></div>
+        <div><span class="k">Gates</span><span class="v">Slither · Mythril · Foundry</span></div>
+      </dl>
     </article>
 
-    <article class="project">
-      <div class="meta">2026<br>Python · TypeScript<br><a href="https://github.com/PowerK3000/claude-voice">view repo →</a></div>
+    <article class="project" data-reveal>
+      <div class="idx mono">02</div>
       <div>
-        <h3>claude-voice and work-watch</h3>
-        <p class="sub">A local voice for Claude Code, and a live view of what the agent is doing.</p>
+        <h3>claude-voice + work-watch</h3>
+        <p>A local voice for Claude Code, and a live view of what the agent is doing.</p>
         <ul>
           <li>Every reply is spoken by a locally hosted Chatterbox TTS model on a GTX 1060, with barge-in so talking over it stops it.</li>
           <li>Hands-free voice mode using Silero VAD and Whisper, with an adaptive noise floor so room noise doesn't cut speech off.</li>
-          <li>work-watch desktop mod: live diff typing, file map, tool timeline and a status orb, so the person can see an agent's actions as they happen.</li>
+          <li>work-watch desktop mod: live diff typing, file map, tool timeline and a status orb, so the person sees an agent's actions as they happen.</li>
         </ul>
-        <div class="tags"><span>Chatterbox</span><span>Whisper</span><span>Silero VAD</span><span>PyTorch</span><span>Claude Code hooks</span></div>
       </div>
+      <dl class="spec">
+        <div><span class="k">Status</span><a class="v" href="https://github.com/PowerK3000/claude-voice">Public repo →</a></div>
+        <div><span class="k">Year</span><span class="v">2026</span></div>
+        <div><span class="k">Stack</span><span class="v">Python · TypeScript</span></div>
+        <div><span class="k">Runs on</span><span class="v">Local GPU, no cloud</span></div>
+      </dl>
     </article>
 
-    <article class="project">
-      <div class="meta">2026<br>Python<br><a href="https://github.com/PowerK3000/hand-sonar">view repo →</a></div>
+    <article class="project" data-reveal>
+      <div class="idx mono">03</div>
       <div>
         <h3>hand-sonar</h3>
-        <p class="sub">Turns an ordinary webcam into a Windows input device, run as a measured research project.</p>
+        <p>Turns an ordinary webcam into a Windows input device, run as a measured research project.</p>
         <ul>
           <li>Built everything above MediaPipe Hands: view-invariant features, One Euro filtering, engagement gating, and a 27-DoF personal kinematic hand model with calibration.</li>
           <li>Showed thumb-to-finger taps are unobservable from an overhead camera; the fix is camera placement, not thresholds.</li>
-          <li>A/B-tested RTMPose on GPU against MediaPipe on CPU and didn't adopt it. Every decision is backed by a number in the lab notebook, negative results included.</li>
+          <li>A/B-tested RTMPose on GPU against MediaPipe on CPU and didn't adopt it. Every decision is backed by a number, negative results included.</li>
         </ul>
-        <div class="stats">
-          <div class="stat"><b>45% → 98%</b><span>tap separability after calibration</span></div>
-          <div class="stat"><b>27 DoF</b><span>personal hand model</span></div>
-          <div class="stat"><b>52</b><span>commits, with a full lab notebook</span></div>
-        </div>
       </div>
+      <dl class="spec">
+        <div><span class="k">Status</span><a class="v" href="https://github.com/PowerK3000/hand-sonar">Public repo →</a></div>
+        <div><span class="k">Year</span><span class="v">2026</span></div>
+        <div><span class="k">Separability</span><span class="v">45% → 98%</span></div>
+        <div><span class="k">Hand model</span><span class="v">27 DoF</span></div>
+      </dl>
     </article>
 
-    <article class="project">
-      <div class="meta">2026<br>Rust · C#</div>
+    <article class="project" data-reveal>
+      <div class="idx mono">04</div>
       <div>
         <h3>Other tooling</h3>
-        <p class="sub">Phosphor, a Rust desktop CRT effect with a Claude Code terminal profile, and an iPad pointer overlay in C#.</p>
+        <p>Phosphor, a Rust desktop CRT effect with a Claude Code terminal profile, and an iPad pointer overlay in C#.</p>
       </div>
+      <dl class="spec">
+        <div><span class="k">Stack</span><span class="v">Rust · C#</span></div>
+      </dl>
     </article>
   </section>
 
   <section class="wrap" id="research">
-    <h2>Research direction</h2>
-    <div class="research">
+    <div class="sec-head" data-reveal>
+      <div class="kicker mono"><span class="n">//</span><span>Research direction</span></div>
+      <h2 class="display">Can a gate keep<br>an agent <span class="grad">honest?</span></h2>
+    </div>
+    <div class="brief" data-reveal>
       <h3>Can a cheap, checkable gate keep an agent's success claims honest, or does the agent learn to game the gate?</h3>
       <p>Smart-contract auditing is a clean testbed for scalable oversight. Agent claims are high-stakes and hard for a human to judge, but ground truth is cheap: a mainnet-fork exploit test either drains the funds or it doesn't.</p>
-      <p>The plan: take historically exploited DeFi contracts at their pre-exploit block, plus clean controls, and compare plain prompting against invariant-first prompting, each with and without a proof-of-concept gate. Then measure:</p>
-      <ul class="measures">
-        <li>True-exploit recall</li>
-        <li>The rate of false success claims</li>
-        <li>Gaming the gate: mocked targets, weakened assertions, edited tests</li>
-        <li>Whether stated confidence predicts a passing proof</li>
-      </ul>
+      <p>The plan: take historically exploited DeFi contracts at their pre-exploit block, plus clean controls, and compare plain prompting against invariant-first prompting, each with and without a proof-of-concept gate.</p>
+      <div class="measures">
+        <div><span class="n mono">M/01</span><p>True-exploit recall</p></div>
+        <div><span class="n mono">M/02</span><p>Rate of false success claims</p></div>
+        <div><span class="n mono">M/03</span><p>Gaming the gate: mocked targets, weakened assertions, edited tests</p></div>
+        <div><span class="n mono">M/04</span><p>Whether stated confidence predicts a passing proof</p></div>
+      </div>
       <p>It measures a concrete form of agent dishonesty where it can be checked automatically, and tests whether a simple verifier really constrains a capable agent or just moves the cheating somewhere else.</p>
     </div>
   </section>
 
   <section class="wrap" id="leadership">
-    <h2>Leadership</h2>
-    <div class="lead-row">
-      <div class="meta">2022 – present</div>
-      <div>
-        <h3>Co-founder and CFO, Autum's Reading Train</h3>
-        <p>A nonprofit with a yearly budget of about $500,000 and more than 500 volunteers. I run budgeting, grants, financial reporting and board meetings, and help plan and run our events on the ground.</p>
+    <div class="sec-head" data-reveal>
+      <div class="kicker mono"><span class="n">//</span><span>Leadership</span></div>
+      <h2 class="display">Accountable for<br><span class="grad">real money</span></h2>
+    </div>
+    <div class="rows">
+      <div data-reveal>
+        <span class="when mono">2022 – present</span>
+        <div><h3>Co-founder and CFO, Autum's Reading Train</h3><p>Budgeting, grants, financial reporting and board meetings, plus planning and running events on the ground.</p></div>
+        <div class="figs mono"><span>~$500K / yr</span><span>500+ volunteers</span></div>
+      </div>
+      <div data-reveal>
+        <span class="when mono">2025 – present</span>
+        <div><h3>Founder, Keystone Applied Intelligence LLC</h3><p>Applied AI for enterprise and government workflows.</p></div>
+        <div class="figs mono"><span>Applied AI</span></div>
+      </div>
+      <div data-reveal>
+        <span class="when mono">Education</span>
+        <div><h3>Cosumnes River College</h3><p>Part-time student. Earlier dual-enrollment coursework in Business and Technology at Diablo Valley College.</p></div>
+        <div class="figs mono"><span>Part-time</span></div>
       </div>
     </div>
-    <div class="lead-row">
-      <div class="meta">2025 – present</div>
-      <div>
-        <h3>Founder, Keystone Applied Intelligence LLC</h3>
-        <p>Applied AI for enterprise and government workflows.</p>
-      </div>
-    </div>
-    <div class="lead-row">
-      <div class="meta">Education</div>
-      <div>
-        <h3>Cosumnes River College</h3>
-        <p>Part-time student. Earlier dual-enrollment coursework in Business and Technology at Diablo Valley College.</p>
+  </section>
+
+  <section class="cta-band" id="contact">
+    <div class="wrap" data-reveal>
+      <h2 class="display">Let's verify<br><span class="grad">something.</span></h2>
+      <p>The fastest way to reach me is email.</p>
+      <div class="row">
+        <a class="btn primary" href="mailto:Murdic.Kayden.Future@gmail.com">Email me <span class="arr">→</span></a>
+        <a class="btn" href="https://github.com/PowerK3000">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/kayden-undefined-033862294/">LinkedIn</a>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="wrap" id="contact">
-  <h2>Contact</h2>
-  <p>The fastest way to reach me is email.</p>
-  <div class="row">
-    <a href="mailto:Murdic.Kayden.Future@gmail.com">Murdic.Kayden.Future@gmail.com</a>
-    <a href="https://github.com/PowerK3000">github.com/PowerK3000</a>
-    <a href="https://www.linkedin.com/in/kayden-undefined-033862294/">LinkedIn</a>
-  </div>
-  <p class="small">Sacramento area, California · Built with Claude Code, no frameworks.</p>
+<footer>
+  <div class="wrap mono"><span>© 2026 Kayden Murdic</span><span>Built with Claude Code · no frameworks</span></div>
 </footer>
 
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js');
+
+  // Scroll reveal.
+  const io = 'IntersectionObserver' in window && !reduce ? new IntersectionObserver((es) => {
+    for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 }) : null;
+  document.querySelectorAll('[data-reveal]').forEach((el) => io ? io.observe(el) : el.classList.add('in'));
+  // The hero is always on screen at load: start its headline at once rather than waiting on the observer.
+  requestAnimationFrame(() => requestAnimationFrame(() => document.querySelector('.hero').classList.add('in')));
+
+  // Stats count up once.
+  const run = (el) => {
+    const end = +el.dataset.count, t0 = performance.now();
+    const f = (t) => { const p = Math.min(1, (t - t0) / 1400); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  };
+  if (io) {
+    const co = new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) { run(e.target); co.unobserve(e.target); } }, { threshold: 0.6 });
+    document.querySelectorAll('[data-count]').forEach((el) => co.observe(el));
+  }
+
+  // Glyph renderer: shades a 3D form with characters, in the pink-to-violet duotone.
+  const RAMP = " .,:;-=+*x%#$&@";
+  function glyphField(canvas, opts) {
+    const ctx = canvas.getContext('2d');
+    let w, h, cols, rows, cell, dpr;
+    const size = () => {
+      dpr = Math.min(2, devicePixelRatio || 1);
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cell = opts.cell; cols = Math.ceil(w / cell); rows = Math.ceil(h / (cell * 1.25));
+      ctx.font = `500 ${cell}px "JetBrains Mono", monospace`; ctx.textBaseline = 'top';
+    };
+    size(); addEventListener('resize', size);
+    let visible = true;
+    if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(canvas);
+    const draw = (t) => {
+      ctx.clearRect(0, 0, w, h);
+      const cy = rows * 1.25 * cell, scan = ((t * 0.00012) % 1.2) - .1;
+      for (let j = 0; j < rows; j++) {
+        const y = j * cell * 1.25;
+        for (let i = 0; i < cols; i++) {
+          const x = i * cell;
+          let v = opts.shade(x / w, y / h, t, w / h);
+          if (v <= 0.02) continue;
+          const sb = Math.max(0, 1 - Math.abs(y / h - scan) * 14);
+          v = Math.min(1, v + sb * .35);
+          const k = Math.min(RAMP.length - 1, Math.floor(v * RAMP.length));
+          const mix = Math.min(1, Math.max(0, x / w * 1.1 - .1 + (1 - v) * .3));
+          const r = Math.round(255 - 90 * mix), g = Math.round(45 - 16 * mix), b = Math.round(107 + 123 * mix);
+          ctx.fillStyle = `rgba(${r},${g},${b},${(.18 + v * .82).toFixed(2)})`;
+          ctx.fillText(RAMP[k], x, y);
+        }
+      }
+    };
+    const loop = (t) => { if (visible) draw(t); if (!reduce) requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+    // With motion off there's no loop, so paint a still frame once the mono font is in.
+    if (reduce) { document.fonts.ready.then(() => { size(); draw(4000); }); addEventListener('resize', () => draw(4000)); }
+    return { redraw: () => draw(performance.now()) };
+  }
+
+  // Hero: a lit sphere with an orbiting ring, offset to the right like a portrait.
+  const hero = document.getElementById('glyphs');
+  glyphField(hero, { cell: 12, shade: (u, v, t, aspect) => {
+    const mobile = innerWidth < 720;
+    const cx = mobile ? .62 : .75, cy = .5, R = mobile ? .3 : .34;
+    const dx = (u - cx) * aspect / R, dy = (v - cy) / R;
+    const d2 = dx * dx + dy * dy;
+    const a = t * 0.00025;
+    let val = 0;
+    if (d2 < 1) {
+      const z = Math.sqrt(1 - d2);
+      const lx = Math.cos(a) * .7, ly = -.45, lz = .55 + Math.sin(a) * .2;
+      const lam = Math.max(0, dx * lx + dy * ly + z * lz);
+      const lat = Math.sin((dy * 9) + a * 6) * .5 + .5;
+      val = lam * .85 + lat * .18 * lam;
+    }
+    // Orbit ring, tilted.
+    const rx = dx * Math.cos(.4) + dy * Math.sin(.4), ry = -dx * Math.sin(.4) + dy * Math.cos(.4);
+    const ring = Math.abs(Math.sqrt(rx * rx + (ry * 3.2) ** 2) - 1.45);
+    if (ring < .06 && !(d2 < 1 && ry < 0)) val = Math.max(val, .9 - ring * 10);
+    // Sparse background noise, denser toward the subject.
+    const n = Math.sin(u * 913.1 + v * 391.7 + Math.floor(t / 180) * 1.7) * 43758.5;
+    const noise = (n - Math.floor(n));
+    if (val === 0 && noise > .965) val = .1 + (1 - Math.min(1, Math.abs(u - cx) * 2.2)) * .25;
+    return val;
+  }});
+
+  // Method HUD: a glyph field that changes form per stage.
+  const hudC = document.getElementById('hud-canvas');
+  let stage = 0;
+  const shapes = [
+    (u, v, t) => { // 01 invariants: a level line that holds
+      const y = .55 + Math.sin(u * 12 + t * .002) * .01;
+      const band = Math.abs(v - y); const grid = (Math.abs((u * 10) % 1 - .5) < .03 || Math.abs((v * 10) % 1 - .5) < .03) ? .18 : 0;
+      return Math.max(band < .025 ? 1 - band * 30 : 0, grid);
+    },
+    (u, v, t) => { // 02 search: a sweeping radar
+      const dx = u - .5, dy = (v - .55) * 1.25, r = Math.hypot(dx, dy); if (r > .42) return 0;
+      const ang = Math.atan2(dy, dx), sweep = ((t * .0012) % (Math.PI * 2)) - Math.PI;
+      let d = ang - sweep; d = Math.atan2(Math.sin(d), Math.cos(d));
+      const trail = d < 0 && d > -1.4 ? (1 + d / 1.4) * .9 : 0;
+      const rings = Math.abs((r * 10) % 1 - .5) < .05 ? .3 : 0;
+      return Math.max(trail * (1 - r * 1.2), rings);
+    },
+    (u, v, t) => { // 03 proof gate: a frame closing on a target
+      const p = (Math.sin(t * .0015) * .5 + .5) * .12;
+      const dx = Math.abs(u - .5), dy = Math.abs(v - .55) * 1.25;
+      const box = Math.abs(Math.max(dx, dy) - (.2 + p)) < .012 ? 1 : 0;
+      const core = Math.hypot(u - .5, (v - .55) * 1.25) < .07 ? .95 : 0;
+      return Math.max(box, core, Math.hypot(u - .5, (v - .55) * 1.25) < .16 ? .12 : 0);
+    },
+    (u, v, t) => { // 04 write-up: rising bars, one that stays short
+      const bars = [.62, .3, .8, .45, .72]; const i = Math.floor((u - .18) / .13);
+      if (i < 0 || i >= bars.length || ((u - .18) % .13) > .09) return Math.abs(v - .82) < .006 ? .6 : 0;
+      const grow = Math.min(1, ((t * .0006) % 2.2)) * bars[i];
+      return v > .82 - grow * .62 && v < .82 ? (i === 1 ? .35 : .9) : 0;
+    },
+  ];
+  const hud = glyphField(hudC, { cell: 11, shade: (u, v, t) => shapes[stage](u, v, t) });
+
+  const labels = ['Invariants', 'Search', 'Proof gate', 'Write-up'];
+  const setStage = (i) => {
+    stage = i;
+    const n = String(i + 1).padStart(2, '0');
+    document.getElementById('hud-n').textContent = n;
+    document.getElementById('hud-big').textContent = n;
+    document.getElementById('hud-label').textContent = labels[i];
+    document.querySelectorAll('.hud .prog i').forEach((b, k) => b.classList.toggle('on', k <= i));
+    if (reduce) hud.redraw();
+  };
+  if ('IntersectionObserver' in window) {
+    const so = new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) setStage(+e.target.dataset.step); }, { rootMargin: '-45% 0px -45% 0px' });
+    document.querySelectorAll('.step').forEach((s) => so.observe(s));
+  }
+})();
+</script>
 </body>
 </html>
