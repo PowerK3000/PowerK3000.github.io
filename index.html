@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kayden Murdic</title>
+<meta name="description" content="Kayden Murdic: AI agents, oversight and verification. Security research, applied AI engineering, nonprofit CFO.">
+<meta property="og:title" content="Kayden Murdic">
+<meta property="og:description" content="AI agents, oversight and verification.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111'/%3E%3Cpath d='M9 8v16M9 16l9-8M12.5 13.5L21 24' stroke='%23e8b04a' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #f6f4ef; --surface: #ffffff; --ink: #14130f; --muted: #5d5a52; --faint: #8f8b80;
+    --line: #e3dfd5; --accent: #a86a0c; --accent-soft: #f3e6cf; --code: #efebe2;
+    --mono: ui-monospace, "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+    --sans: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f0f0d; --surface: #171714; --ink: #ecebe6; --muted: #a9a69c; --faint: #75726a;
+      --line: #2a2924; --accent: #e8b04a; --accent-soft: #2c2415; --code: #1f1e1a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  nav .mark { font-family: var(--mono); font-size: 14px; font-weight: 600; text-decoration: none; }
+  nav .mark span { color: var(--accent); }
+  nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-size: 14px; color: var(--muted); }
+  nav ul a { text-decoration: none; }
+
+  header.hero { padding: 88px 0 56px; }
+  .eyebrow { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: .04em; margin: 0 0 18px; }
+  h1 { font-size: clamp(38px, 6vw, 60px); line-height: 1.04; letter-spacing: -.025em; margin: 0 0 22px; font-weight: 700; }
+  .lede { font-size: clamp(18px, 2.3vw, 21px); color: var(--muted); max-width: 640px; margin: 0 0 30px; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; font-size: 15px; font-weight: 500; }
+  .btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .btn.primary:hover { color: var(--bg); opacity: .88; }
+  .btn svg { width: 16px; height: 16px; }
+
+  section { padding: 56px 0; border-top: 1px solid var(--line); }
+  h2 { font-family: var(--mono); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--faint); margin: 0 0 28px; }
+  h3 { font-size: 21px; letter-spacing: -.01em; margin: 0; }
+
+  .thesis { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .thesis p { margin: 0; }
+  .thesis .big { grid-column: 1 / -1; font-size: 22px; line-height: 1.45; letter-spacing: -.01em; }
+  .thesis .big em { font-style: normal; color: var(--accent); }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+  .card .k { font-family: var(--mono); font-size: 12px; color: var(--faint); margin-bottom: 8px; display: block; }
+
+  .project { display: grid; grid-template-columns: 180px 1fr; gap: 28px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+  .project:last-child { border-bottom: 0; }
+  .project .meta { font-family: var(--mono); font-size: 13px; color: var(--faint); line-height: 1.7; }
+  .project .meta a { color: var(--accent); }
+  .project .sub { color: var(--muted); margin: 4px 0 14px; }
+  .project ul { margin: 0; padding-left: 18px; }
+  .project li { margin: 6px 0; }
+  .project li::marker { color: var(--accent); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .tags span { font-family: var(--mono); font-size: 12px; padding: 3px 8px; border-radius: 5px; background: var(--code); color: var(--muted); }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .stat b { display: block; font-size: 24px; letter-spacing: -.02em; }
+  .stat span { font-size: 13px; color: var(--muted); }
+
+  .research { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 12px; padding: 26px 28px; }
+  .research h3 { margin-bottom: 12px; }
+  .research p { margin: 0 0 12px; color: var(--muted); }
+  .research p:last-child { margin: 0; }
+  .measures { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; margin: 16px 0; padding: 0; list-style: none; }
+  .measures li { font-size: 15px; padding-left: 18px; position: relative; }
+  .measures li::before { content: "→"; position: absolute; left: 0; color: var(--accent); }
+
+  .lead-row { display: grid; grid-template-columns: 180px 1fr; gap: 28px; padding: 18px 0; }
+  .lead-row .meta { font-family: var(--mono); font-size: 13px; color: var(--faint); }
+  .lead-row p { margin: 4px 0 0; color: var(--muted); }
+
+  footer { border-top: 1px solid var(--line); padding: 40px 0 60px; color: var(--muted); font-size: 15px; }
+  footer .row { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 12px; }
+  footer .small { font-family: var(--mono); font-size: 12px; color: var(--faint); margin-top: 28px; }
+
+  @media (max-width: 720px) {
+    .wrap { padding: 0 16px; }
+    nav ul { gap: 14px; }
+    nav ul li.hide-sm { display: none; }
+    header.hero { padding: 56px 0 40px; }
+    .thesis, .measures { grid-template-columns: 1fr; }
+    .project, .lead-row { grid-template-columns: 1fr; gap: 8px; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .research { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="mark" href="#top">kayden<span>.</span>murdic</a>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#research">Research</a></li>
+      <li class="hide-sm"><a href="#leadership">Leadership</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+  <header class="hero wrap">
+    <p class="eyebrow">AI agents · oversight · verification</p>
+    <h1>Kayden Murdic</h1>
+    <p class="lede">I build AI agent systems and study the part that breaks first: <strong>knowing when to believe them.</strong> Security researcher, applied AI engineer, and co-founder and CFO of a nonprofit.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/PowerK3000">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        GitHub
+      </a>
+      <a class="btn" href="https://www.linkedin.com/in/kayden-undefined-033862294/">LinkedIn</a>
+      <a class="btn" href="mailto:Murdic.Kayden.Future@gmail.com">Email</a>
+    </div>
+  </header>
+
+  <section class="wrap">
+    <h2>What I work on</h2>
+    <div class="thesis">
+      <p class="big">AI agents can now do real work on real systems. The hard problem isn't getting them to act. It's <em>verifying what they claim</em>, when the person checking can't redo the work by hand.</p>
+      <div class="card">
+        <span class="k">Lesson learned the hard way</span>
+        <p>My first bug-bounty report came with a proof of concept whose tests all passed. The triager closed it within an hour: the tests ran against a stub contract I'd written, not the real one. My check was satisfied; the goal wasn't.</p>
+      </div>
+      <div class="card">
+        <span class="k">What I did about it</span>
+        <p>I rebuilt my pipeline around hard acceptance gates. State the invariants first, and report nothing without a passing exploit test against the live, deployed contract. Measure, then decide, and write up the negative results.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="work">
+    <h2>Selected work</h2>
+
+    <article class="project">
+      <div class="meta">2025 – present<br>Python · Docker<br>private</div>
+      <div>
+        <h3>VDS: Vulnerability Discovery System</h3>
+        <p class="sub">An agent pipeline for smart-contract auditing in which the model proposes and tools decide.</p>
+        <ul>
+          <li>Seven layers: program ingestion, static analysis, LLM-driven discovery and validation, deduplication, Foundry proof-of-concept generation, and learning metrics.</li>
+          <li>Claude runs the reasoning layers through a file-backed job queue; static tools and fork tests gate what counts as a finding.</li>
+          <li>Six Docker Compose services with a React frontend and an Electron desktop app.</li>
+        </ul>
+        <div class="tags"><span>FastAPI</span><span>Celery</span><span>Postgres</span><span>Redis</span><span>Slither</span><span>Mythril</span><span>Semgrep</span><span>Echidna</span><span>Foundry</span></div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="meta">2026<br>Python · TypeScript<br><a href="https://github.com/PowerK3000/claude-voice">view repo →</a></div>
+      <div>
+        <h3>claude-voice and work-watch</h3>
+        <p class="sub">A local voice for Claude Code, and a live view of what the agent is doing.</p>
+        <ul>
+          <li>Every reply is spoken by a locally hosted Chatterbox TTS model on a GTX 1060, with barge-in so talking over it stops it.</li>
+          <li>Hands-free voice mode using Silero VAD and Whisper, with an adaptive noise floor so room noise doesn't cut speech off.</li>
+          <li>work-watch desktop mod: live diff typing, file map, tool timeline and a status orb, so the person can see an agent's actions as they happen.</li>
+        </ul>
+        <div class="tags"><span>Chatterbox</span><span>Whisper</span><span>Silero VAD</span><span>PyTorch</span><span>Claude Code hooks</span></div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="meta">2026<br>Python<br><a href="https://github.com/PowerK3000/hand-sonar">view repo →</a></div>
+      <div>
+        <h3>hand-sonar</h3>
+        <p class="sub">Turns an ordinary webcam into a Windows input device, run as a measured research project.</p>
+        <ul>
+          <li>Built everything above MediaPipe Hands: view-invariant features, One Euro filtering, engagement gating, and a 27-DoF personal kinematic hand model with calibration.</li>
+          <li>Showed thumb-to-finger taps are unobservable from an overhead camera; the fix is camera placement, not thresholds.</li>
+          <li>A/B-tested RTMPose on GPU against MediaPipe on CPU and didn't adopt it. Every decision is backed by a number in the lab notebook, negative results included.</li>
+        </ul>
+        <div class="stats">
+          <div class="stat"><b>45% → 98%</b><span>tap separability after calibration</span></div>
+          <div class="stat"><b>27 DoF</b><span>personal hand model</span></div>
+          <div class="stat"><b>51</b><span>commits, with a full lab notebook</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="meta">2026<br>Rust · C#</div>
+      <div>
+        <h3>Other tooling</h3>
+        <p class="sub">Phosphor, a Rust desktop CRT effect with a Claude Code terminal profile, and an iPad pointer overlay in C#.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="wrap" id="research">
+    <h2>Research direction</h2>
+    <div class="research">
+      <h3>Can a cheap, checkable gate keep an agent's success claims honest, or does the agent learn to game the gate?</h3>
+      <p>Smart-contract auditing is a clean testbed for scalable oversight. Agent claims are high-stakes and hard for a human to judge, but ground truth is cheap: a mainnet-fork exploit test either drains the funds or it doesn't.</p>
+      <p>The plan: take historically exploited DeFi contracts at their pre-exploit block, plus clean controls, and compare plain prompting against invariant-first prompting, each with and without a proof-of-concept gate. Then measure:</p>
+      <ul class="measures">
+        <li>True-exploit recall</li>
+        <li>The rate of false success claims</li>
+        <li>Gaming the gate: mocked targets, weakened assertions, edited tests</li>
+        <li>Whether stated confidence predicts a passing proof</li>
+      </ul>
+      <p>It measures a concrete form of agent dishonesty where it can be checked automatically, and tests whether a simple verifier really constrains a capable agent or just moves the cheating somewhere else.</p>
+    </div>
+  </section>
+
+  <section class="wrap" id="leadership">
+    <h2>Leadership</h2>
+    <div class="lead-row">
+      <div class="meta">2022 – present</div>
+      <div>
+        <h3>Co-founder and CFO, Autum's Reading Train</h3>
+        <p>A nonprofit with a yearly budget of about $500,000 and more than 500 volunteers. I run budgeting, grants, financial reporting and board meetings, and help plan and run our events on the ground.</p>
+      </div>
+    </div>
+    <div class="lead-row">
+      <div class="meta">2025 – present</div>
+      <div>
+        <h3>Founder, Keystone Applied Intelligence LLC</h3>
+        <p>Applied AI for enterprise and government workflows.</p>
+      </div>
+    </div>
+    <div class="lead-row">
+      <div class="meta">Education</div>
+      <div>
+        <h3>Cosumnes River College</h3>
+        <p>Part-time student. Earlier dual-enrollment coursework in Business and Technology at Diablo Valley College.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap" id="contact">
+  <h2>Contact</h2>
+  <p>The fastest way to reach me is email.</p>
+  <div class="row">
+    <a href="mailto:Murdic.Kayden.Future@gmail.com">Murdic.Kayden.Future@gmail.com</a>
+    <a href="https://github.com/PowerK3000">github.com/PowerK3000</a>
+    <a href="https://www.linkedin.com/in/kayden-undefined-033862294/">LinkedIn</a>
+  </div>
+  <p class="small">Sacramento area, California · Built by hand, no frameworks.</p>
+</footer>
+
+</body>
+</html>
