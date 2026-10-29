@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kayden Murdic</title>
-<meta name="description" content="Kayden Murdic: AI agents, oversight and verification. Security research, applied AI engineering, nonprofit CFO.">
+<meta name="description" content="Kayden Murdic: founder of Keystone Applied Intelligence, security researcher, and nonprofit CFO. Build it, break it, prove it.">
 <meta name="theme-color" content="#000000">
 <meta property="og:title" content="Kayden Murdic">
-<meta property="og:description" content="The agent says it's done. Prove it.">
+<meta property="og:description" content="Build it. Break it. Prove it.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23ff2d6b'/%3E%3Cstop offset='1' stop-color='%23a51de6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Cpath d='M9 7v18M9 16l10-9M13 12.5L23 25' stroke='url(%23g)' stroke-width='3.4' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -96,6 +96,15 @@
   .stat b { display: block; font-family: var(--display); font-stretch: 125%; font-weight: 800; font-size: clamp(30px, 3.2vw, 42px); letter-spacing: -.02em; line-height: 1.05; }
   .stat > span { display: block; color: var(--body); font-size: 15px; margin-top: 8px; max-width: 300px; }
 
+  /* About: three pillars split by hairlines. */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+  .pillar { padding: 34px 32px 10px 0; border-right: 1px solid var(--line); }
+  .pillar + .pillar { padding-left: 32px; }
+  .pillar:last-child { border-right: 0; }
+  .pillar .n { color: var(--pink); display: block; margin-bottom: 18px; }
+  .pillar h3 { font-family: var(--display); font-stretch: 125%; font-weight: 800; text-transform: uppercase; font-size: 22px; margin: 0 0 12px; letter-spacing: -.01em; }
+  .pillar p { color: var(--body); margin: 0; }
+
   /* Method: numbered steps beside a sticky HUD panel. */
   .method { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
   .steps { display: flex; flex-direction: column; gap: 90px; padding: 40px 0; }
@@ -183,6 +192,9 @@
   }
 
   @media (max-width: 980px) {
+    .pillars { grid-template-columns: 1fr; }
+    .pillar, .pillar + .pillar { padding: 28px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+    .pillar:last-child { border-bottom: 0; }
     .method { grid-template-columns: 1fr; gap: 0; }
     .hud { position: relative; top: 0; aspect-ratio: 16 / 11; margin-bottom: 40px; order: -1; }
     .project { grid-template-columns: 1fr; gap: 18px; }
@@ -218,7 +230,7 @@
 
 <div class="util">
   <div class="wrap mono">
-    <span class="live"><i></i>Open to research roles · Jan 2027</span>
+    <span class="live"><i></i>Building Keystone Applied Intelligence</span>
     <span class="hide-sm">Sacramento area, CA</span>
   </div>
 </div>
@@ -230,10 +242,10 @@
       Kayden Murdic
     </a>
     <ul>
-      <li><a href="#method">Method</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#method">How I work</a></li>
       <li><a href="#work">Work</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#leadership">Leadership</a></li>
+      <li><a href="#ventures">Ventures</a></li>
     </ul>
     <div class="nav-cta">
       <a class="btn sm" href="https://github.com/PowerK3000">GitHub</a>
@@ -247,16 +259,16 @@
     <canvas id="glyphs" aria-hidden="true"></canvas>
     <div class="wrap">
       <h1 class="display">
-        <span class="ln"><span>The agent says</span></span>
-        <span class="ln"><span style="--d:.08s">it's done.</span></span>
+        <span class="ln"><span>Build it.</span></span>
+        <span class="ln"><span style="--d:.08s">Break it.</span></span>
         <span class="ln"><span class="grad" style="--d:.16s">Prove it.</span></span>
       </h1>
-      <p class="lede">I build AI agent systems and study the part that breaks first: knowing when to believe them. Security researcher, applied AI engineer, and co-founder and CFO of a nonprofit.</p>
+      <p class="lede">I'm Kayden Murdic. I build applied AI systems, hunt for vulnerabilities in smart contracts, and keep the books for a half-million-dollar nonprofit. Founder of Keystone Applied Intelligence.</p>
       <div class="row">
         <a class="btn primary" href="#work">See the work <span class="arr">→</span></a>
-        <a class="btn" href="#research">Research direction</a>
+        <a class="btn" href="#contact">Get in touch</a>
       </div>
-      <div class="ticker mono"><b></b>Every finding gated by a passing exploit test</div>
+      <div class="ticker mono"><b></b>Applied AI · Security research · Operations</div>
     </div>
     <div class="ruler" aria-hidden="true"></div>
   </header>
@@ -280,11 +292,37 @@
     </div>
   </section>
 
+  <section class="wrap" id="about">
+    <div class="sec-head" data-reveal>
+      <div class="kicker mono"><span class="n">//</span><span>About</span></div>
+      <h2 class="display">AI's engineering<br><span class="grad">era</span></h2>
+      <p>The breakthroughs are already here. The value now comes from applying AI well inside real workflows, and from proving it does what it claims. That's the work I do, across three fields.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar" data-reveal>
+        <span class="n mono">01</span>
+        <h3>Applied AI</h3>
+        <p>Agent pipelines, tooling around Claude, and local models on modest hardware. Through Keystone, AI built for enterprise and government workflows.</p>
+      </div>
+      <div class="pillar" data-reveal style="--d:.08s">
+        <span class="n mono">02</span>
+        <h3>Security research</h3>
+        <p>Smart-contract and DeFi vulnerability research as PowerK3000, with an automated discovery pipeline that won't report what it can't prove.</p>
+      </div>
+      <div class="pillar" data-reveal style="--d:.16s">
+        <span class="n mono">03</span>
+        <h3>Operations and finance</h3>
+        <p>Co-founder and CFO of a nonprofit since 2022: budgets, grants, board reporting, and events run on the ground with hundreds of volunteers.</p>
+      </div>
+    </div>
+  </section>
+
   <section id="method">
     <div class="wrap">
       <div class="sec-head" data-reveal>
+        <div class="kicker mono"><span class="n">//</span><span>How I work</span></div>
         <h2 class="display">From claim<br>to <span class="grad">proof</span></h2>
-        <p>An agent's report is a claim, not a finding. Every step below exists because skipping it once cost me.</p>
+        <p>A claim isn't a result, whether it comes from an AI agent, a vendor or me. Every step below exists because skipping it once cost me.</p>
       </div>
       <div class="method">
         <div class="steps">
@@ -402,7 +440,7 @@
 
   <section class="wrap" id="research">
     <div class="sec-head" data-reveal>
-      <div class="kicker mono"><span class="n">//</span><span>Research direction</span></div>
+      <div class="kicker mono"><span class="n">//</span><span>The question I'm working on</span></div>
       <h2 class="display">Can a gate keep<br>an agent <span class="grad">honest?</span></h2>
     </div>
     <div class="brief" data-reveal>
@@ -419,21 +457,26 @@
     </div>
   </section>
 
-  <section class="wrap" id="leadership">
+  <section class="wrap" id="ventures">
     <div class="sec-head" data-reveal>
-      <div class="kicker mono"><span class="n">//</span><span>Leadership</span></div>
-      <h2 class="display">Accountable for<br><span class="grad">real money</span></h2>
+      <div class="kicker mono"><span class="n">//</span><span>Ventures and leadership</span></div>
+      <h2 class="display">Accountable for<br><span class="grad">real outcomes</span></h2>
     </div>
     <div class="rows">
+      <div data-reveal>
+        <span class="when mono">2025 – present</span>
+        <div><h3>Founder, Keystone Applied Intelligence LLC</h3><p>Applied AI for enterprise and government: putting models to work inside real workflows rather than building new ones.</p></div>
+        <div class="figs mono"><span>Applied AI</span><span>B2B · Gov</span></div>
+      </div>
       <div data-reveal>
         <span class="when mono">2022 – present</span>
         <div><h3>Co-founder and CFO, Autum's Reading Train</h3><p>Budgeting, grants, financial reporting and board meetings, plus planning and running events on the ground.</p></div>
         <div class="figs mono"><span>~$500K / yr</span><span>500+ volunteers</span></div>
       </div>
       <div data-reveal>
-        <span class="when mono">2025 – present</span>
-        <div><h3>Founder, Keystone Applied Intelligence LLC</h3><p>Applied AI for enterprise and government workflows.</p></div>
-        <div class="figs mono"><span>Applied AI</span></div>
+        <span class="when mono">Ongoing</span>
+        <div><h3>Independent security researcher</h3><p>Smart-contract and DeFi vulnerability research on Immunefi as PowerK3000.</p></div>
+        <div class="figs mono"><span>PowerK3000</span></div>
       </div>
       <div data-reveal>
         <span class="when mono">Education</span>
@@ -445,8 +488,8 @@
 
   <section class="cta-band" id="contact">
     <div class="wrap" data-reveal>
-      <h2 class="display">Let's verify<br><span class="grad">something.</span></h2>
-      <p>The fastest way to reach me is email.</p>
+      <h2 class="display">Let's build<br><span class="grad">something real.</span></h2>
+      <p>Projects, research, partnerships or a hard problem to break. The fastest way to reach me is email.</p>
       <div class="row">
         <a class="btn primary" href="mailto:Murdic.Kayden.Future@gmail.com">Email me <span class="arr">→</span></a>
         <a class="btn" href="https://github.com/PowerK3000">GitHub</a>
